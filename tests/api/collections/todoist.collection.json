@@ -1,0 +1,1464 @@
+{
+  "info": {
+    "_postman_id": "dda40256-0d79-40f0-a951-1c8742666212",
+    "name": "todoist-api",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Projects",
+      "item": [
+        {
+          "name": "Create a new project",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "9a47d640-a3f9-4690-9de8-24fbeabb1a8b",
+                "exec": [
+                  "var jsonData = pm.response.json();",
+                  "",
+                  "pm.test(\"Status code is 200\", function () {",
+                  "    pm.environment.set(\"project_id\", jsonData.id);",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  ""
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n\t\"name\": \"{{new_project_name}}\"\n}"
+            },
+            "url": {
+              "raw": "{{url}}/projects",
+              "host": ["{{url}}"],
+              "path": ["projects"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create a new project - Empty name",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "9a47d640-a3f9-4690-9de8-24fbeabb1a8b",
+                "exec": [
+                  "pm.test(\"Status code is 400\", function () {",
+                  "    pm.response.to.have.status(400);",
+                  "});",
+                  "",
+                  ""
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "type": "text",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n\t\"name\": \"\"\n}"
+            },
+            "url": {
+              "raw": "{{url}}/projects",
+              "host": ["{{url}}"],
+              "path": ["projects"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create a new project - Invalid Token",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "9a47d640-a3f9-4690-9de8-24fbeabb1a8b",
+                "exec": [
+                  "pm.test(\"Status code is 403\", function () {",
+                  "    pm.response.to.have.status(403);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}-invalid",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "type": "text",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n\t\"name\": \"{{new_project_name}}\"\n}"
+            },
+            "url": {
+              "raw": "{{url}}/projects",
+              "host": ["{{url}}"],
+              "path": ["projects"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create a new project - Empty body",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "9a47d640-a3f9-4690-9de8-24fbeabb1a8b",
+                "exec": [
+                  "pm.test(\"Status code is 400\", function () {",
+                  "    pm.response.to.have.status(400);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "type": "text",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n\n}"
+            },
+            "url": {
+              "raw": "{{url}}/projects",
+              "host": ["{{url}}"],
+              "path": ["projects"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get all projects",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "4b276bec-31cd-47a4-9238-4dad2b240564",
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  ""
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [],
+              "options": {
+                "raw": {
+                  "language": "text"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{url}}/projects",
+              "host": ["{{url}}"],
+              "path": ["projects"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get all projects - Invalid token",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "4b276bec-31cd-47a4-9238-4dad2b240564",
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {",
+                  "    pm.response.to.have.status(403);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}-invalid",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [],
+              "options": {
+                "raw": {
+                  "language": "text"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{url}}/projects",
+              "host": ["{{url}}"],
+              "path": ["projects"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get single project",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "ca7642cc-73fa-4d23-8d0d-a00566989c71",
+                "exec": [
+                  "var jsonData = pm.response.json();",
+                  "",
+                  "pm.test(\"Status code is 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  ""
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "name": "Content-Type",
+                "value": "application/x-www-form-urlencoded",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": []
+            },
+            "url": {
+              "raw": "{{url}}/projects/{{project_id}}",
+              "host": ["{{url}}"],
+              "path": ["projects", "{{project_id}}"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get single project - Invalid token",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "ca7642cc-73fa-4d23-8d0d-a00566989c71",
+                "exec": [
+                  "pm.test(\"Status code is 403\", function () {",
+                  "    pm.response.to.have.status(403);",
+                  "});",
+                  ""
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}-invalid",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "name": "Content-Type",
+                "type": "text",
+                "value": "application/x-www-form-urlencoded"
+              }
+            ],
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": []
+            },
+            "url": {
+              "raw": "{{url}}/projects/{{project_id}}",
+              "host": ["{{url}}"],
+              "path": ["projects", "{{project_id}}"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get single project - Invalid project id",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "ca7642cc-73fa-4d23-8d0d-a00566989c71",
+                "exec": [
+                  "pm.test(\"Status code is 404\", function () {",
+                  "    pm.response.to.have.status(404);",
+                  "});",
+                  ""
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}-invalid",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "name": "Content-Type",
+                "type": "text",
+                "value": "application/x-www-form-urlencoded"
+              }
+            ],
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": []
+            },
+            "url": {
+              "raw": "{{url}}/projects/{{project_id}}-invalid",
+              "host": ["{{url}}"],
+              "path": ["projects", "{{project_id}}-invalid"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update project",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "b43c905b-7c01-4f8d-b0a5-41c6b603ada5",
+                "exec": [
+                  "pm.test(\"Status code is 204\", function () {",
+                  "    pm.response.to.have.status(204);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n\t\"name\": \"{{project_edit_name}}\"\n}"
+            },
+            "url": {
+              "raw": "{{url}}/projects/{{project_id}}",
+              "host": ["{{url}}"],
+              "path": ["projects", "{{project_id}}"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update project - Empty name",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "b43c905b-7c01-4f8d-b0a5-41c6b603ada5",
+                "exec": [
+                  "pm.test(\"Status code is 400\", function () {",
+                  "    pm.response.to.have.status(400);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "type": "text",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n\t\"name\": \"\"\n}"
+            },
+            "url": {
+              "raw": "{{url}}/projects/{{project_id}}",
+              "host": ["{{url}}"],
+              "path": ["projects", "{{project_id}}"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update project - Invalid token",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "b43c905b-7c01-4f8d-b0a5-41c6b603ada5",
+                "exec": [
+                  "pm.test(\"Status code is 403\", function () {",
+                  "    pm.response.to.have.status(403);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}-invalid",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "type": "text",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n\t\"name\": \"{{project_edit_name}}\"\n}"
+            },
+            "url": {
+              "raw": "{{url}}/projects/{{project_id}}",
+              "host": ["{{url}}"],
+              "path": ["projects", "{{project_id}}"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update project - Invalid project id",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "b43c905b-7c01-4f8d-b0a5-41c6b603ada5",
+                "exec": [
+                  "pm.test(\"Status code is 404\", function () {",
+                  "    pm.response.to.have.status(404);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}-invalid",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "type": "text",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n\t\"name\": \"{{project_edit_name}}\"\n}"
+            },
+            "url": {
+              "raw": "{{url}}/projects/{{project_id}}-invalid",
+              "host": ["{{url}}"],
+              "path": ["projects", "{{project_id}}-invalid"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete project",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "10fd65ca-adf8-443b-84eb-40aa2d7c66ad",
+                "exec": [
+                  "pm.test(\"Status code is 204\", function () {",
+                  "    pm.response.to.have.status(204);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{url}}/projects/{{project_id}}",
+              "host": ["{{url}}"],
+              "path": ["projects", "{{project_id}}"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete project - Invalid token",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "e1ac5153-7fa5-4bd3-b155-d2498bc9d0c0",
+                "exec": [
+                  "pm.test(\"Status code is 403\", function () {",
+                  "    pm.response.to.have.status(403);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}-invalid",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{url}}/projects/{{project_id}}",
+              "host": ["{{url}}"],
+              "path": ["projects", "{{project_id}}"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete project - Invalid project id",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "e1ac5153-7fa5-4bd3-b155-d2498bc9d0c0",
+                "exec": [
+                  "pm.test(\"Status code is 404\", function () {",
+                  "    pm.response.to.have.status(404);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{url}}/projects/{{project_id}}-invalid",
+              "host": ["{{url}}"],
+              "path": ["projects", "{{project_id}}-invalid"]
+            }
+          },
+          "response": []
+        }
+      ],
+      "protocolProfileBehavior": {}
+    },
+    {
+      "name": "Tasks",
+      "item": [
+        {
+          "name": "Get Active tasks",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "8a929b4d-7a55-42cc-a562-eecb05f8790c",
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{url}}/tasks",
+              "host": ["{{url}}"],
+              "path": ["tasks"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Active tasks - Invalid token",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "8a929b4d-7a55-42cc-a562-eecb05f8790c",
+                "exec": [
+                  "pm.test(\"Status code is 403\", function () {",
+                  "    pm.response.to.have.status(403);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}-invalid",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{url}}/tasks",
+              "host": ["{{url}}"],
+              "path": ["tasks"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create new task",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "0a0a6604-e129-43d0-bad4-ad96f19ca99f",
+                "exec": [
+                  "var jsonData = pm.response.json();",
+                  "pm.test(\"Status code is 200\", function () {",
+                  "    pm.environment.set(\"new_task_id\", jsonData.id);",
+                  "    pm.response.to.have.status(200);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"content\": \"{{new_task_content}}\", \n  \"due_string\": \"{{new_task_due_string}}\", \n  \"due_lang\": \"{{new_task_due_lang}}\", \n  \"priority\": {{new_task_priority}}\n}"
+            },
+            "url": {
+              "raw": "{{url}}/tasks",
+              "host": ["{{url}}"],
+              "path": ["tasks"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create new task - Empty Content",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "0a0a6604-e129-43d0-bad4-ad96f19ca99f",
+                "exec": [
+                  "pm.test(\"Status code is 400\", function () {",
+                  "    pm.response.to.have.status(400);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "type": "text",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"content\": \"\", \n  \"due_string\": \"{{new_task_due_string}}\", \n  \"due_lang\": \"{{new_task_due_lang}}\", \n  \"priority\": {{new_task_priority}}\n}"
+            },
+            "url": {
+              "raw": "{{url}}/tasks",
+              "host": ["{{url}}"],
+              "path": ["tasks"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create new task - Invalid token",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "0a0a6604-e129-43d0-bad4-ad96f19ca99f",
+                "exec": [
+                  "pm.test(\"Status code is 403\", function () {",
+                  "    pm.response.to.have.status(403);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}-invalid",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "type": "text",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"content\": \"{{new_task_content}}\", \n  \"due_string\": \"{{new_task_due_string}}\", \n  \"due_lang\": \"{{new_task_due_lang}}\", \n  \"priority\": {{new_task_priority}}\n}"
+            },
+            "url": {
+              "raw": "{{url}}/tasks",
+              "host": ["{{url}}"],
+              "path": ["tasks"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get a single active task",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "215b5b8f-16a2-4653-aeb9-8daef8b98022",
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{url}}/tasks/{{new_task_id}}",
+              "host": ["{{url}}"],
+              "path": ["tasks", "{{new_task_id}}"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get a single active task - Invalid task id",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "215b5b8f-16a2-4653-aeb9-8daef8b98022",
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{url}}/tasks/{{new_task_id}}",
+              "host": ["{{url}}"],
+              "path": ["tasks", "{{new_task_id}}"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get a single active task - Invalid token",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "215b5b8f-16a2-4653-aeb9-8daef8b98022",
+                "exec": [
+                  "pm.test(\"Status code is 403\", function () {",
+                  "    pm.response.to.have.status(403);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}-invalid",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{url}}/tasks/{{new_task_id}}",
+              "host": ["{{url}}"],
+              "path": ["tasks", "{{new_task_id}}"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update task",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "17ba1503-de6d-43af-8cf3-1c3a82910426",
+                "exec": [
+                  "pm.test(\"Status code is 204\", function () {",
+                  "    pm.response.to.have.status(204);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n\t\"content\": \"{{new_task_modified_content}}\"\n}"
+            },
+            "url": {
+              "raw": "{{url}}/tasks/{{new_task_id}}",
+              "host": ["{{url}}"],
+              "path": ["tasks", "{{new_task_id}}"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update task - Empty content",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "17ba1503-de6d-43af-8cf3-1c3a82910426",
+                "exec": [
+                  "pm.test(\"Status code is 400\", function () {",
+                  "    pm.response.to.have.status(400);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "type": "text",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n\t\"content\": \"\"\n}"
+            },
+            "url": {
+              "raw": "{{url}}/tasks/{{new_task_id}}",
+              "host": ["{{url}}"],
+              "path": ["tasks", "{{new_task_id}}"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update task - Invalid token",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "236b7da7-a3c5-4de4-874e-1e7d040c7624",
+                "exec": [
+                  "pm.test(\"Status code is 403\", function () {",
+                  "    pm.response.to.have.status(403 );",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}-invalid",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n\t\"content\": \"{{new_task_modified_content}}\"\n}"
+            },
+            "url": {
+              "raw": "{{url}}/tasks/{{new_task_id}}",
+              "host": ["{{url}}"],
+              "path": ["tasks", "{{new_task_id}}"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Close task",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "340cc41f-7739-4139-a236-afd005273bed",
+                "exec": [
+                  "pm.test(\"Status code is 204\", function () {",
+                  "    pm.response.to.have.status(204);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{url}}/tasks/{{new_task_id}}/close",
+              "host": ["{{url}}"],
+              "path": ["tasks", "{{new_task_id}}", "close"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Close task - Invalid token",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "96c504db-8c3c-4c80-95fd-84f9045df4c8",
+                "exec": [
+                  "pm.test(\"Status code is 403\", function () {",
+                  "    pm.response.to.have.status(403);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}-invalid",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{url}}/tasks/{{new_task_id}}/close",
+              "host": ["{{url}}"],
+              "path": ["tasks", "{{new_task_id}}", "close"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Reopen task",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "79364baa-0487-450e-bf8b-a733f3a5f83d",
+                "exec": [
+                  "pm.test(\"Status code is 204\", function () {",
+                  "    pm.response.to.have.status(204);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{url}}/tasks/{{new_task_id}}/reopen",
+              "host": ["{{url}}"],
+              "path": ["tasks", "{{new_task_id}}", "reopen"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Reopen task - Invalid token",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "de61fc78-c8ee-4782-adcb-6c614e73e829",
+                "exec": [
+                  "pm.test(\"Status code is 403\", function () {",
+                  "    pm.response.to.have.status(403);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}-invalid",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{url}}/tasks/{{new_task_id}}/reopen",
+              "host": ["{{url}}"],
+              "path": ["tasks", "{{new_task_id}}", "reopen"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete task",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "30e302a1-3ef2-4acd-9a62-b7d14b9376bc",
+                "exec": [
+                  "pm.test(\"Status code is 204\", function () {",
+                  "    pm.response.to.have.status(204);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{url}}/tasks/{{new_task_id}}",
+              "host": ["{{url}}"],
+              "path": ["tasks", "{{new_task_id}}"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete task - Invalid token",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "30e302a1-3ef2-4acd-9a62-b7d14b9376bc",
+                "exec": [
+                  "pm.test(\"Status code is 403\", function () {",
+                  "    pm.response.to.have.status(403);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}-invalid",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{url}}/tasks/{{new_task_id}}",
+              "host": ["{{url}}"],
+              "path": ["tasks", "{{new_task_id}}"]
+            }
+          },
+          "response": []
+        }
+      ],
+      "protocolProfileBehavior": {}
+    }
+  ],
+  "protocolProfileBehavior": {}
+}

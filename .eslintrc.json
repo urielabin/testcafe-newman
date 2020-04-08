@@ -1,0 +1,7 @@
+{
+  "extends": ["airbnb", "prettier", "plugin:sonarjs/recommended"],
+  "plugins": ["prettier", "sonarjs"],
+  "rules": {
+    "prettier/prettier": ["error"]
+  }
+}

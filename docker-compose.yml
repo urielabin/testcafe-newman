@@ -1,0 +1,38 @@
+version: '3'
+services:
+  todoist_api_tests:
+    image: postman/newman
+    volumes:
+      - ./tests/api/collections:/etc/newman
+    entrypoint:
+      - newman
+      - run
+      - /etc/newman/todoist.collection.json
+      - --environment
+      - /etc/newman/todoist.environment.json
+      - --reporters
+      - cli
+      - --iteration-count
+      - '1'
+      - --insecure
+  todoist_frontend_tests:
+    container_name: testcafe_${BROWSER}
+    image: testcafe/testcafe
+    environment:
+      - NODE_PATH=/node_modules:/node_modules
+      - SCREEN_WIDTH=1920
+      - SCREEN_HEIGHT=1080
+    volumes:
+      - ./node_modules:/node_modules
+      - ./tests/frontend:/tests
+      - ./tests/frontend/reports:/reports
+    entrypoint:
+      [
+        '/opt/testcafe/docker/testcafe-docker.sh',
+        '${BROWSER}:headless --no-sandbox',
+        '-e',
+        '-S',
+        '-s',
+        'screenshots',
+        '/tests',
+      ]

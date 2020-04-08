@@ -1,0 +1,19 @@
+{
+  "browsers": ["chrome:headless --no-sandbox"],
+  "src": "./tests/frontend/scripts/",
+  "reporter": "spec",
+  "screenshots": {
+    "path": "./tests/reports/screenshots",
+    "takeOnFails": true,
+    "videoPath": "./tests/reports/screen-captures",
+    "videoOptions": {
+      "singleFile": true,
+      "failedOnly": true
+    }
+  },
+  "concurrency": 1,
+  "selectorTimeout": 5000,
+  "assertionTimeout": 5000,
+  "pageLoadTimeout": 5000,
+  "speed": 1
+}

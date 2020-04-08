@@ -1,0 +1,3 @@
+tests/reports/
+node_modules/
+.env

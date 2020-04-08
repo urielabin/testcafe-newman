@@ -1,0 +1,15 @@
+{
+  "baseUrl": "https://todoist.com/",
+  "login_error_msgs": {
+    "blank_email": "Invalid email address.",
+    "invalid_email": "Wrong email or password.",
+    "blank_password": "Blank password.",
+    "invalid_password": "Wrong email or password."
+  },
+  "tasks": {
+    "header_task_name": "test-header-task",
+    "inbox_task_name": "test-inbox-task",
+    "today_task_name": "test-today-task",
+    "multiple_tasks_number": 10
+  }
+}
